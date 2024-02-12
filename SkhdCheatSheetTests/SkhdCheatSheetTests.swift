@@ -10,18 +10,28 @@ import XCTest
 
 final class SkhdCheatSheetTests: XCTestCase {
 
-    func testParseHotKeys() {
-        let viewModel = CheatsheetViewModel()
-        let result = viewModel.parseHotKeys()
+
+    func testParseGroupDefinition() {
+        
+    }
+    
+    func testGetGroupSubstrs() {
+        
+        let configPath = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".skhdrc")
+
+        let rawContent = getCheatSheetSubstr(configPath: configPath)
+        let rawGroups = getGroupSubstrs(content: rawContent)
+        
+        XCTAssertNotNil(rawGroups)
+        XCTAssertEqual(rawGroups.count, 2)
+
+    }
+    
+    func testParseConfig() {
+        
+        let result = parseConfig()
         
         XCTAssertNotNil(result)
-
-        
-        for hotkey in result {
-            XCTAssertNotNil(hotkey.binding)
-            XCTAssertNotNil(hotkey.command)
-        }
-        
     }
 
 }

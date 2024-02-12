@@ -9,20 +9,32 @@ struct ContentView: View {
 
     
     var body: some View {
-        List(viewModel.filteredHotKeys) { hotkey in
-            VStack(alignment: .leading) {
-                Text(hotkey.binding).font(.headline)
-                Text(hotkey.command).font(.subheadline)
-            }
+        List(viewModel.keyBindingGroups) { group in
+            Section(header: VStack(alignment: .leading) {
+                Text(group.name)
+                    .font(.headline)
+                    .accessibilityAddTraits(.isHeader)
+                Text(group.description)
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+            }, content: {
+                
+                ForEach(group.keyBindings) { keyBinding in
+                    VStack(alignment: .leading) {
+                        Text(keyBinding.binding).font(.headline)
+                        Text(keyBinding.command).font(.subheadline)
+                    }
+                }
+            })
         }
         .onAppear {
             viewModel.loadHotKeys()
         }
         .navigationTitle("HotKeys")
-            .searchable(text: $searchTerm, prompt: "Search hotkey")
+            /*.searchable(text: $searchTerm, prompt: "Search hotkey")
             .onChange(of: searchTerm) { newValue in
                 viewModel.searchItems(with: newValue)
-            }
+            }*/
     }
 }
 
